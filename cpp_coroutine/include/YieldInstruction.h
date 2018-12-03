@@ -1,5 +1,5 @@
-#pragma once
-
+#if !defined(_YIELDINSTRUCTION_H_)
+#define _YIELDINSTRUCTION_H_
 #include "Definition.h"
 
 
@@ -38,3 +38,4 @@ namespace cpp_coroutine
 		return (Coroutine*)yield;
 	}
 }
+#endif

@@ -1,20 +1,27 @@
-#pragma once
+#if !defined(_COROUTINE_H_)
+#define _COROUTINE_H_
 
+#include "Switcher.h"
 #include "YieldInstruction.h"
 
 namespace cpp_coroutine
 {
 	class Coroutine final : public YieldInstruction
 	{
+		friend class Switcher;
 		friend class YieldReturn;
 		friend class CoroutineManager;
 	public:
-		Coroutine(Enumerator func, void* mainfiber);
+		Coroutine(Enumerator func, Switcher* mainfiber);
 		 
 		virtual ~Coroutine();
 
 	protected:
+#if _MSC_VER
 		static void __stdcall entry(void* lpParameter);
+#else
+		static void entry(void* lpParameter);
+#endif
 
 		void resume();
 		void yield();
@@ -46,8 +53,8 @@ namespace cpp_coroutine
 
 
 	private:
-		void* m_pmainfiber;
-		void* m_pfiber;
+		Switcher* m_pmainswitcher;
+		Switcher m_switcher;
 		bool m_ended;
 		Enumerator m_func;
 		YieldInstruction* m_pyield_return;
@@ -56,3 +63,4 @@ namespace cpp_coroutine
 	};
 
 }
+#endif 

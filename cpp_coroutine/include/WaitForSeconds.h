@@ -1,4 +1,5 @@
-#pragma once
+#if !defined(_WAITFORSECONDS_H_)
+#define _WAITFORSECONDS_H_
 #include "YieldInstruction.h"
 #include <ctime>
 
@@ -40,3 +41,4 @@ namespace cpp_coroutine
 
 
 }
+#endif

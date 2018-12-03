@@ -1,4 +1,5 @@
-#pragma once
+#if !defined(_COROUTINEMANAGER_H_)
+#define _COROUTINEMANAGER_H_
 
 #include <list>
 #include <vector>
@@ -26,7 +27,9 @@ namespace cpp_coroutine
 		bool valid_resume(Coroutine *p);
 	private:
 		std::vector<Coroutine*> m_coroutines;
-		void* m_pfiber;
+		Switcher m_swicher;
 	};
 
 }
+
+#endif

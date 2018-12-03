@@ -1,4 +1,6 @@
 
+
+#if 1
 #include "cpp_coroutine.h"
 using namespace cpp_coroutine;
 #include <iostream>
@@ -92,3 +94,21 @@ int main()
 	foo.Test();
 	return 0;
 }
+#else
+
+#include <functional>
+#include <iostream>
+
+int main()
+{
+
+	std::function<void()> temp = []()
+	{
+		std::cout << "tesdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddt" << std::endl;
+	};
+
+
+	temp();
+	return 0;
+}
+#endif

@@ -3,23 +3,25 @@
 
 namespace cpp_coroutine
 {
-	Coroutine::Coroutine(Enumerator func, void * mainfiber)
+	Coroutine::Coroutine(Enumerator func, Switcher* pmainswitcher)
 		: YieldInstruction(_TYPEID_<Coroutine>())
 		, m_func(func)
-		, m_pmainfiber(mainfiber)
+		, m_pmainswitcher(pmainswitcher)
 		, m_ended(false)
 		, m_pnext(nullptr)
 		, m_pyield_return(nullptr)
 	{
-		m_pfiber = CreateFiber(STACK_LIMIT, entry, this);
+		m_switcher.InitCoroutine(const_cast<Coroutine*>(this), m_pmainswitcher);
 	}
 
 	Coroutine::~Coroutine()
 	{
-		DeleteFiber(m_pfiber);
 	}
-
+#if _MSC_VER
 	void __stdcall Coroutine::entry(void * lpParameter)
+#else
+	void Coroutine::entry(void * lpParameter)
+#endif
 	{
 		Coroutine* pcoro = (Coroutine*)lpParameter;
 		YieldReturn yr(pcoro);
@@ -32,12 +34,12 @@ namespace cpp_coroutine
 
 	void Coroutine::resume()
 	{
-		SwitchToFiber(m_pfiber);
+		m_switcher.Swap(m_pmainswitcher);
 	}
 
 	void Coroutine::yield()
 	{
-		SwitchToFiber(m_pmainfiber);
+		m_pmainswitcher->Swap(&m_switcher);
 	}
 
 	void Coroutine::end()

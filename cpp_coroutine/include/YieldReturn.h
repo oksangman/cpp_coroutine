@@ -1,4 +1,5 @@
-#pragma once
+#if !defined(_YIELDRETURN_H_)
+#define _YIELDRETURN_H_
 
 namespace cpp_coroutine
 {
@@ -15,3 +16,4 @@ namespace cpp_coroutine
 		Coroutine *m_pcoro;
 	};
 }
+#endif

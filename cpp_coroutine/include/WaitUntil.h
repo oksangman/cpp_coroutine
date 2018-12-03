@@ -1,4 +1,5 @@
-#pragma once
+#if !defined(_WAITUNTIL_H_)
+#define _WAITUNTIL_H_
 #include "YieldInstruction.h"
 
 namespace cpp_coroutine
@@ -38,3 +39,4 @@ namespace cpp_coroutine
 
 
 }
+#endif

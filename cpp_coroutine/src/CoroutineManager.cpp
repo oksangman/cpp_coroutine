@@ -4,7 +4,7 @@ namespace cpp_coroutine
 {
 	CoroutineManager::CoroutineManager()
 	{
-		m_pfiber = ConvertThreadToFiber(nullptr);
+		m_swicher.InitMain();
 	}
 
 
@@ -14,7 +14,7 @@ namespace cpp_coroutine
 
 	Coroutine* CoroutineManager::StartCoroutine(Enumerator enumerator)
 	{
-		return push_coroutine(new Coroutine(enumerator, m_pfiber));
+		return push_coroutine(new Coroutine(enumerator, &m_swicher));
 	}
 
 	void CoroutineManager::StopCoroutine(Coroutine * coro)

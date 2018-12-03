@@ -1,4 +1,5 @@
-#pragma once
+#if !defined(_WAITWHILE_H_)
+#define _WAITWHILE_H_
 #include "YieldInstruction.h"
 
 namespace cpp_coroutine
@@ -35,6 +36,5 @@ namespace cpp_coroutine
 	private:
 		std::function<bool()> m_condition;
 	};
-
-
 }
+#endif
