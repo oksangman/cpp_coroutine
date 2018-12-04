@@ -48,15 +48,17 @@ namespace cpp_coroutine
 	}
 	void Switcher::InitMain()
 	{
+		getcontext(&m_ctx);
 	}
 	void Switcher::InitCoroutine(Coroutine* coro, Switcher* pmain)
 	{
+		getcontext(&m_ctx);
 		m_stack = new char[STACK_LIMIT];
 		m_ctx.uc_stack.ss_sp = m_stack;
 		m_ctx.uc_stack.ss_size = STACK_LIMIT;
 		m_ctx.uc_link = &(pmain->m_ctx);
 
-		makecontext(&m_ctx, (void (*)(void))(&Coroutine::entry), 0);
+		makecontext(&m_ctx, (void (*)(void))Coroutine::entry, 1, coro);
 	}
 	void Switcher::Swap(Switcher* pmain)
 	{

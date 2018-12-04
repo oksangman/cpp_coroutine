@@ -95,20 +95,67 @@ int main()
 	return 0;
 }
 #else
+#include <stdio.h>
+#include <ucontext.h>
 
-#include <functional>
-#include <iostream>
 
-int main()
+static ucontext_t ctx[3];
+
+
+static void
+f1(char *str)
 {
+	puts(str);
+	swapcontext(&ctx[1], &ctx[2]);
+	puts("finish f1");
+}
 
-	std::function<void()> temp = []()
-	{
-		std::cout << "tesdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddt" << std::endl;
-	};
+
+static void
+f2(void)
+{
+	puts("start f2");
+	swapcontext(&ctx[2], &ctx[1]);
+	puts("finish f2");
+}
 
 
-	temp();
+class Test
+{
+public:
+	static void Temp();
+};
+void Test::Temp()
+{
+	puts("start f2");
+	swapcontext(&ctx[2], &ctx[1]);
+	puts("finish f2");
+}
+
+int
+main(void)
+{
+	char st1[8192];
+	char st2[8192];
+
+
+	getcontext(&ctx[1]);
+	ctx[1].uc_stack.ss_sp = st1;
+	ctx[1].uc_stack.ss_size = sizeof st1;
+	ctx[1].uc_link = &ctx[0];
+	makecontext(&ctx[1], (void(*)(void))f1, 1, "sdf");
+
+
+	getcontext(&ctx[2]);
+	ctx[2].uc_stack.ss_sp = st2;
+	ctx[2].uc_stack.ss_size = sizeof st2;
+	ctx[2].uc_link = &ctx[1];
+	makecontext(&ctx[2], (void(*)(void))Test::Temp, 0);
+
+
+	swapcontext(&ctx[0], &ctx[2]);
 	return 0;
 }
+
+
 #endif

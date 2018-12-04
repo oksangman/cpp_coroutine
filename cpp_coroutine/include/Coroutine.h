@@ -20,7 +20,7 @@ namespace cpp_coroutine
 #if _MSC_VER
 		static void __stdcall entry(void* lpParameter);
 #else
-		static void entry(void* lpParameter);
+		static void entry(Coroutine* pcoro);
 #endif
 
 		void resume();
