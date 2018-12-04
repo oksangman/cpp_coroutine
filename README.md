@@ -1,4 +1,4 @@
 # cpp_coroutine
 unity style coroutine
 
-https://github.com/exawon/CoroBehaviour 참고
+[참고한 코드 CoroBehaviour](https://github.com/exawon/CoroBehaviour)
