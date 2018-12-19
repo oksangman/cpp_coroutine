@@ -19,10 +19,12 @@ namespace cpp_coroutine
 	}
 #if _MSC_VER
 	void __stdcall Coroutine::entry(void * lpParameter)
+	{
+		Coroutine* pcoro = (Coroutine*)lpParameter;
 #else
 	void Coroutine::entry(Coroutine* pcoro)
-#endif
 	{
+#endif
 		YieldReturn yr(pcoro);
 
 		pcoro->m_func(yr);
