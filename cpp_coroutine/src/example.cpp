@@ -1,11 +1,12 @@
 
 
 #if 1
-#include "cpp_coroutine.h"
-using namespace cpp_coroutine;
 #include <iostream>
 #include <string>
 #include <sstream>
+#include "cpp_coroutine.h"
+
+using namespace cpp_coroutine;
 
 class ExampleBehaviour : public CoroutineManager
 {
